@@ -1,0 +1,6 @@
+
+      let main [args] -> {
+        do (println "Hello, World!")
+        return 42
+      }
+    
