@@ -1,0 +1,28 @@
+start: (let_statement)*
+let_statement: LET identifier expression
+expression: literal | func_call
+literal: int | float | TRUE | FALSE | string | function | NIL
+func_call: LPAREN identifier expression* RPAREN
+return_statement: RETURN expression
+
+function: LBRACKET RBRACKET LSCOPE func_body RSCOPE
+func_body: (let_statement | return_statement)*
+int: SIGN?\d+
+float: SIGN?\d+\.\d+
+string: "([^\"] | \\\")*"
+identifier: [_a-zA-Z]
+
+LET: 'let'
+RETURN: 'return'
+SIGN: [\+-]
+TRUE: 'true'
+FALSE: 'false'
+LPAREN: '('
+RPAREN: ')'
+LBRACKET: '['
+RBRACKET: ']'
+LSCOPE: '{'
+RSCOPE: '}'
+TRUE: 'true'
+FALSE: 'false'
+NIL: 'nil'

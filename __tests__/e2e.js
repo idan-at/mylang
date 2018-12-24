@@ -9,8 +9,9 @@ describe('mylang E2E', () => {
 
   test('runs the main function and exits with its return value', () => {
     const code = `
-      let main [args] -> {
-        do (println "Hello, World!")
+      ; main
+      let main [] {
+        (println "Hello, World!")
         return 42
       }`
 
