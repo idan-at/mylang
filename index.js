@@ -11,7 +11,8 @@ function main(filePath) {
 
   // console.log(tokens)
   // console.log(require('util').inspect(ast, {depth: null}))
-  console.log(result)
+  // console.log(result)
+  process.exit(result)
 }
 
 main(process.argv[2])

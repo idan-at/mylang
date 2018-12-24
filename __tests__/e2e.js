@@ -16,9 +16,9 @@ describe('mylang E2E', () => {
       }`
 
     writeFileSync(fixturesFilePath, code, 'utf8')
-    const {stdout, status} = spawnSync(`node . ${fixturesFilePath}`)
+    const {status, stdout} = spawnSync('node', ['.', fixturesFilePath], {encoding: 'utf8'})
 
     expect(status).toBe(42)
-    expect(stdout).toEqual("Hello, World!")
+    expect(stdout).toEqual("Hello, World!\n")
   })
 })
