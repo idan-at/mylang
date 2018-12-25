@@ -33,13 +33,13 @@ function repl() {
       const tokens = lexer.tokenize(code)
       const parser = new Parser()
       const ast = parser.parse(tokens)
-      const result = vm.runLine(ast._body[0])
+      const result = vm.runLine(ast.first())
       if (result !== undefined) {
         console.log(';', result)
       }
-      process.stdout.write('> ')
     } catch(e) {
       console.error(e)
+    } finally {
       process.stdout.write('> ')
     }
   });
