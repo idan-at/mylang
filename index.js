@@ -26,16 +26,16 @@ function repl() {
   const stdin = process.openStdin();
 
   process.stdout.write('> ')
-  stdin.addListener("data", function(d) {
-    const code = d.toString()
+  stdin.addListener('data', data => {
+    const code = data.toString()
     try {
       const lexer = createLexer()
       const tokens = lexer.tokenize(code)
       const parser = new Parser()
-      const ast = parser.parse(tokens)  
-      const result = vm.eval(ast)
+      const ast = parser.parse(tokens)
+      const result = vm.runLine(ast._body[0])
       if (result !== undefined) {
-        console.log('; ', result)
+        console.log(';', result)
       }
       process.stdout.write('> ')
     } catch(e) {
