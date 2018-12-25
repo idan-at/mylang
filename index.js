@@ -3,23 +3,11 @@ const createLexer = require('./lib/Lexer')
 const Parser = require('./lib/Parser')
 const vm = require('./lib/VM')
 
-function main(filePath) {
-  if (filePath) {
-    const code = fs.readFileSync(filePath, 'utf8')
-    const lexer = createLexer()
-    const tokens = lexer.tokenize(code)
-    const parser = new Parser()
-    const ast = parser.parse(tokens)  
-    vm.eval(ast)
-    const result = vm.main()
-
-    // console.log(tokens)
-    // console.log(require('util').inspect(ast, {depth: null}))
-    // console.log(result)
-    process.exit(result)
-  }
-
-  repl()
+function runFile(filePath) {
+  const code = fs.readFileSync(filePath, 'utf8')
+  vm.eval(parse(code))
+  const result = vm.main()
+  process.exit(result)
 }
 
 function repl() {
@@ -29,10 +17,7 @@ function repl() {
   stdin.addListener('data', data => {
     const code = data.toString()
     try {
-      const lexer = createLexer()
-      const tokens = lexer.tokenize(code)
-      const parser = new Parser()
-      const ast = parser.parse(tokens)
+      const ast = parse(code)
       const result = vm.runLine(ast.first())
       if (result !== undefined) {
         console.log(';', result)
@@ -45,4 +30,11 @@ function repl() {
   });
 }
 
-main(process.argv[2])
+function parse(code) {
+  const lexer = createLexer()
+    const tokens = lexer.tokenize(code)
+    const parser = new Parser()
+    return parser.parse(tokens)
+}
+
+process.argv[2] ? runFile(process.argv[2]) : repl()
