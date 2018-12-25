@@ -1,5 +1,10 @@
 ; main
 let main [] {
   (println "Hello, World!")
-  return 42
+  return (identity 42)
+}
+
+let identity [a] {
+  (println a)
+  return a
 }
