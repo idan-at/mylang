@@ -20,7 +20,7 @@ function repl() {
       const ast = parse(code)
       const result = vm.runLine(ast.first())
       if (result !== undefined) {
-        console.log(';', result)
+        console.log(';', result.toString())
       }
     } catch(e) {
       console.error(e)
