@@ -1,8 +1,8 @@
-- Verify function arguments types in global functions
 - Tests...
+- handle division by zero
 
 # Features
-- pattern matching
+- if statement
 - list
 - map
 - var args
