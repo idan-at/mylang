@@ -23,7 +23,7 @@ function repl() {
         console.log(';', result === null ? 'nil' : result.toString())
       }
     } catch(e) {
-      console.error(e)
+      console.error(e.toString())
     } finally {
       process.stdout.write('> ')
     }
@@ -32,9 +32,9 @@ function repl() {
 
 function parse(code) {
   const lexer = createLexer()
-    const tokens = lexer.tokenize(code)
-    const parser = new Parser()
-    return parser.parse(tokens)
+  const tokens = lexer.tokenize(code)
+  const parser = new Parser()
+  return parser.parse(tokens)
 }
 
 process.argv[2] ? runFile(process.argv[2]) : repl()
