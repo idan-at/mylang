@@ -2,12 +2,22 @@ const fs = require('fs')
 const createLexer = require('./lib/Lexer')
 const Parser = require('./lib/Parser')
 const vm = require('./lib/VM')
+const {isInt, isNil} = require('./lib/VM/type-checks')
+const {InvalidExitCodeError} = require('./lib/errors')
 
 function runFile(filePath) {
   const code = fs.readFileSync(filePath, 'utf8')
   vm.eval(parse(code))
   const result = vm.main()
-  process.exit(result)
+  if (isInt(result)) {
+    process.exit(result)
+  }
+
+  if(isNil(result)) {
+    process.exit(0)
+  }
+
+  throw new InvalidExitCodeError(`main returned with '${result.toString()}'`)
 }
 
 function repl() {
