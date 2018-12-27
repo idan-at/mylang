@@ -1,6 +1,8 @@
 ; main
 let main [] {
   (println "Hello, World!")
+  (println (if-example 2))
+  (print-if-positive 11)
   return (add1 (identity 41))
 }
 
@@ -13,4 +15,16 @@ let add1 [a] {
   }
 
   return (y)
+}
+
+let if-example [n] {
+  return (if (!= n 1)
+    [] (+ n 1)
+    [] (* n 4))
+}
+
+let print-if-positive [n] {
+  (if (> n 0)
+    [] (println n)
+    [] {})
 }
