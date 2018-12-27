@@ -5,7 +5,7 @@ literal: int | float | TRUE | FALSE | string | function | NIL
 func_call: LPAREN identifier expression* RPAREN
 return_statement: RETURN expression
 
-function: LBRACKET RBRACKET LSCOPE func_body RSCOPE
+function: LBRACKET RBRACKET (LSCOPE func_body RSCOPE | expression )
 func_body: (let_statement | return_statement)*
 int: SIGN?\d+
 float: SIGN?\d+\.\d+

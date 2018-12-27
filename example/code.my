@@ -1,15 +1,12 @@
 ; main
 let main [] {
   (println "Hello, World!")
-  return (add1 (identity 41))
+  return (add-one (identity 41))
 }
 
-let identity [a] {
-  (println a)
-  return a
-}
+let identity [a] a
 
-let add1 [a] {
+let add-one [a] {
   let x 1
   let y [] {
     return (+ x a)
