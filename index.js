@@ -17,7 +17,7 @@ function runFile(filePath) {
     process.exit(0)
   }
 
-  throw new InvalidExitCodeError(`main returned with '${result.toString()}'`)
+  throw new InvalidExitCodeError(`main returned with '${result.toString()}' (expected an int or nil)`)
 }
 
 function repl() {
