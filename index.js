@@ -5,17 +5,21 @@ const vm = require('./lib/VM')
 const {isInt, isNil} = require('./lib/VM/type-checks')
 const {InvalidExitCodeError} = require('./lib/errors')
 const format = require('./lib/VM/format')
+const ReturnValue = require('./lib/VM/ReturnValue')
 
 function runFile(filePath) {
   const code = fs.readFileSync(filePath, 'utf8')
   vm.eval(parse(code))
   const result = vm.main()
-  if (isInt(result)) {
-    process.exit(result)
-  }
+  if (result instanceof ReturnValue) {
+    const retVal = result.retVal
+    if (isInt(retVal)) {
+      process.exit(retVal)
+    }
 
-  if(isNil(result)) {
-    process.exit(0)
+    if(isNil(retVal)) {
+      process.exit(0)
+    }
   }
 
   throw new InvalidExitCodeError(`main returned with '${result.toString()}' (expected an int or nil)`)

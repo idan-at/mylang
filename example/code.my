@@ -3,7 +3,8 @@ let main [] {
   (println "Hello, World!")
   (println main)
   (println (if-example 2))
-  ((print-if-positive 11))
+  (println "ok")
+  (print-if-positive 11)
   (println (+ 1 2 3 4))
 
   let l (list 1 2 3 4)
@@ -33,13 +34,15 @@ let add1 [a] {
 }
 
 let if-example [n] {
-  return (if (!= n 1)
-    (+ n 1)
-    (* n 4))
+  if (!= n 1) {
+    return (+ n 1)
+  }
+
+  return (* n 4)
 }
 
 let print-if-positive [n] {
-  return (if (> n 0)
-    [] (println n)
-    [] {})
+  if (> n 0) {
+    (println n)
+  }
 }

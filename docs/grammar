@@ -1,13 +1,16 @@
-start: (let_statement)*
+start: (let_statement | if_statement)*
 let_statement: LET identifier expression
 expression: literal | func_call
 literal: int | float | TRUE | FALSE | string | function | NIL
 func_call: LPAREN identifier expression* RPAREN
+if_statement: IF expression LSCOPE func_body RSCOPE (elsif_statement)* else_statement?
+elsif_statement: ELSIF expression LSCOPE func_body RSCOPE
+else_statement: ELSE LSCOPE func_body RSCOPE
 return_statement: RETURN expression
 
 function: LBRACKET function_arguments RBRACKET (LSCOPE func_body RSCOPE | expression )
 function_arguments: (identifier)* (VARARGS identifier)?
-func_body: (let_statement | return_statement)*
+func_body: (let_statement | if_statement | return_statement)*
 int: SIGN?\d+
 float: SIGN?\d+\.\d+
 string: "([^\"] | \\\")*"
@@ -27,4 +30,7 @@ RSCOPE: '}'
 TRUE: 'true'
 FALSE: 'false'
 NIL: 'nil'
+IF: 'if'
+ELSIF: 'elsif'
+ELSE: 'else'
 VARARGS: '@'
