@@ -3,6 +3,7 @@ let main [] {
   (println "Hello, World!")
   (println (if-example 2))
   ((print-if-positive 11))
+  (println (+ 1 2 3 4))
   return (add1 (identity 41))
 }
 
