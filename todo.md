@@ -1,7 +1,7 @@
 - Tests...
+- print last argument with @ in varargs
 
 # Features
-- fn name
 - default parameters
 - var args
 - keyword args?
