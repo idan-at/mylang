@@ -6,7 +6,7 @@ func_call: LPAREN identifier expression* RPAREN
 return_statement: RETURN expression
 
 function: LBRACKET function_arguments RBRACKET (LSCOPE func_body RSCOPE | expression )
-function_arguments: (identifier)*
+function_arguments: (identifier)* (VARARGS identifier)?
 func_body: (let_statement | return_statement)*
 int: SIGN?\d+
 float: SIGN?\d+\.\d+
@@ -27,3 +27,4 @@ RSCOPE: '}'
 TRUE: 'true'
 FALSE: 'false'
 NIL: 'nil'
+VARARGS: '@'
