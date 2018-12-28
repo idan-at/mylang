@@ -1,5 +1,4 @@
 - Tests...
-- verify unique function arguments
 
 # Features
 - fn name
