@@ -4,6 +4,7 @@ const Parser = require('./lib/Parser')
 const vm = require('./lib/VM')
 const {isInt, isNil} = require('./lib/VM/type-checks')
 const {InvalidExitCodeError} = require('./lib/errors')
+const format = require('./lib/VM/format')
 
 function runFile(filePath) {
   const code = fs.readFileSync(filePath, 'utf8')
@@ -31,7 +32,7 @@ function repl() {
       for (const statement of ast.iter) {
         const result = vm.runLine(statement)
         if (result !== undefined) {
-          console.log(';', result === null ? 'nil' : result.toString())
+          console.log(';', format(result))
         }
       }
     } catch(e) {

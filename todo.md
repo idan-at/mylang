@@ -1,10 +1,7 @@
 - Tests...
 - verify unique function arguments
 
-# Features 
-- list
-- map
-- set
+# Features
 - fn name
 - default parameters
 - var args

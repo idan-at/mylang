@@ -4,6 +4,16 @@ let main [] {
   (println (if-example 2))
   ((print-if-positive 11))
   (println (+ 1 2 3 4))
+
+  let l (list 1 2 3 4)
+  (println l)
+
+  let s (set 1 2 2)
+  (println s)
+
+  let d (dict "a" 1 "b" 2 3 "c")
+  (println d)
+
   return (add1 (identity 41))
 }
 
