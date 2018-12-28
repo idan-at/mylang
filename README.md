@@ -33,7 +33,7 @@ let sum-and-print [a b] {
 NOTE that once a name is set with a value, it can't be changed.
 
 ## Control flow
-The `if statement` can be used for codne branching.
+The `if statement` can be used for code branching.
 
 ```
 let zero-if-negative-otherwise-add-one [n] {
