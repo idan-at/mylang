@@ -1,6 +1,7 @@
 ; main
 let main [] {
   (println "Hello, World!")
+  (println main)
   (println (if-example 2))
   ((print-if-positive 11))
   (println (+ 1 2 3 4))
