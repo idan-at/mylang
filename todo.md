@@ -1,5 +1,4 @@
 - Tests...
-- print last argument with @ in varargs
 
 # Features
 - default parameters
