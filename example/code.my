@@ -1,19 +1,19 @@
 ; main
 let main [] {
-  ;(println "Hello, World!")
-  ;(println main)
-  ;(println (if-example 2))
-  ;((print-if-positive 11))
-  ;(println (+ 1 2 3 4))
+  (println "Hello, World!")
+  (println main)
+  (println (if-example 2))
+  ((print-if-positive 11))
+  (println (+ 1 2 3 4))
 
-  ;let l (list 1 2 3 4)
-  ;(println l)
+  let l (list 1 2 3 4)
+  (println l)
 
-  ;let s (set 1 2 2)
-  ;(println s)
+  let s (set 1 2 2)
+  (println s)
 
-  ;let d (dict "a" 1 "b" 2 3 "c")
-  ;(println d)
+  let d (dict "a" 1 "b" 2 3 "c")
+  (println d)
 
   (println (sum-all 1 2 3 4))
   return (add1 (identity 41))
