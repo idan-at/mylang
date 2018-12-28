@@ -28,7 +28,7 @@ function repl() {
     const code = data.toString()
     try {
       const ast = parse(code)
-      for (const statement of ast.iter()) {
+      for (const statement of ast.iter) {
         const result = vm.runLine(statement)
         if (result !== undefined) {
           console.log(';', result === null ? 'nil' : result.toString())
