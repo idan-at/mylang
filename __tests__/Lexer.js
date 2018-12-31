@@ -17,7 +17,7 @@ describe('Lexer', () => {
     expect(lexer.tokenize(code)).toEqual([new Token(LET, 'let ', 1, 1)])
   })
 
-  it('should ignore whitespaces, tabs, new lines and commas', () => {
+  it('should ignore white spaces, tabs, new lines and commas', () => {
     const code = ' \t\n,,,,,\n'
 
     expect(lexer.tokenize(code)).toEqual([])
