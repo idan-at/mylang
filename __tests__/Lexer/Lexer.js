@@ -21,6 +21,7 @@ const {
   IDENTIFIER,
   VARARGS
 } = require('../../lib/Lexer/symbols')
+const {InvalidTokenError} = require('../../lib/errors')
 
 describe('Lexer', () => {
   let Lexer
@@ -246,5 +247,12 @@ describe('Lexer', () => {
         new Token(RBRACKET, ']', 1, 8)
       ])
     })
+  })
+
+  it('throws when no match is found', () => {
+    const code = '#'
+
+    expect(() => lexer.tokenize(code))
+    .toThrowWithMessage(InvalidTokenError, "unexpected token '#' (1:1)")
   })
 })
