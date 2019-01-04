@@ -3,6 +3,7 @@ const createLexer = require('../../lib/Lexer')
 const {
   AST,
   LetStatement,
+  ReturnStatement,
   IntLiteral,
   IfStatement,
   ElsifStatement,
@@ -98,6 +99,50 @@ describe('Parser', () => {
           )
         )
       ]))
+    })
+  })
+
+  describe('expressions', () => {
+    describe('function call', () => {
+      it('parses a simple function call correctly', () => {
+        const tokens = withTokensFrom('(f)')
+
+        expect(parse(tokens)).toEqual(new AST([
+          new FunctionCall(new IdentifierExpression('f'), [])
+        ]))
+      })
+
+      it('parses a simple function call with arguments correctly', () => {
+        const tokens = withTokensFrom('(f x 2)')
+  
+        expect(parse(tokens)).toEqual(new AST([
+          new FunctionCall(
+            new IdentifierExpression('f'),
+            [new IdentifierExpression('x'), new IntLiteral(2)]
+          )
+        ]))
+      })
+
+      it('parses a dynamic function call correctly', () => {
+        const tokens = withTokensFrom('((f) 1 2 3)')
+
+        expect(parse(tokens)).toEqual(new AST([
+          new FunctionCall(
+            new FunctionCall(new IdentifierExpression('f'), []),
+            [new IntLiteral(1), new IntLiteral(2), new IntLiteral(3)]
+          )
+        ]))
+      })
+
+      it('throws a ParserError when function call does not end with a closing parenthesis', () => {
+        const tokens = withTokensFrom('(f 1')
+
+        expect(() => parse(tokens)).toThrowWithMessage(ParserError, "expected '' to be ')' (1:5)")
+      })
+    })
+
+    describe('literals', () => {
+
     })
   })
 })

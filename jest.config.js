@@ -1,4 +1,4 @@
 module.exports = {
-  setupTestFrameworkScriptFile: 'jest-extended',
+  setupTestFrameworkScriptFile: './__tests__/matchers.js',
   verbose: true
 }
