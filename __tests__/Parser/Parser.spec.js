@@ -4,14 +4,20 @@ const {
   AST,
   LetStatement,
   ReturnStatement,
+  FloatLiteral,
+  StringLiteral,
   IntLiteral,
+  FunctionExpression,
+  TrueLiteral,
+  FalseLiteral,
+  NilLiteral,
   IfStatement,
   ElsifStatement,
   ElseStatement,
   FunctionCall,
   IdentifierExpression
 } = require('../../lib/AST')
-const { ParserError } = require('../../lib/errors')
+const { ParserError, SyntaxError } = require('../../lib/errors')
 
 describe('Parser', () => {
   describe('let statement', () => {
@@ -100,6 +106,24 @@ describe('Parser', () => {
         )
       ]))
     })
+
+    it('throws when if body is not inside a scope ({...})', () => {
+      const tokens = withTokensFrom('if (= x 1) 42')
+
+      expect(() => parse(tokens)).toThrowWithMessage(ParserError, "expected '42' to be '{' (1:12)")
+    })
+
+    it('throws when elsif body is not inside a scope ({...})', () => {
+      const tokens = withTokensFrom('if (= x 1) { 42 } elsif (= x 4) 43')
+
+      expect(() => parse(tokens)).toThrowWithMessage(ParserError, "expected '43' to be '{' (1:33)")
+    })
+
+    it('throws when els body is not inside a scope ({...})', () => {
+      const tokens = withTokensFrom('if (= x 1) { 42 } else 43')
+
+      expect(() => parse(tokens)).toThrowWithMessage(ParserError, "expected '43' to be '{' (1:24)")
+    })
   })
 
   describe('expressions', () => {
@@ -142,7 +166,146 @@ describe('Parser', () => {
     })
 
     describe('literals', () => {
+      it('parses integer correctly', () => {
+        const tokens = withTokensFrom('1')
 
+        expect(parse(tokens)).toEqual(new AST([
+          new IntLiteral(1)
+        ]))
+      })
+
+      it('parses float correctly', () => {
+        const tokens = withTokensFrom('-1.5')
+
+        expect(parse(tokens)).toEqual(new AST([
+          new FloatLiteral(-1.5)
+        ]))
+      })
+
+      it('parses string correctly', () => {
+        const tokens = withTokensFrom('"Hi"')
+
+        expect(parse(tokens)).toEqual(new AST([
+          new StringLiteral('"Hi"')
+        ]))
+      })
+
+      it('parses true correctly', () => {
+        const tokens = withTokensFrom('true')
+
+        expect(parse(tokens)).toEqual(new AST([
+          new TrueLiteral()
+        ]))
+      })
+
+      it('parses false correctly', () => {
+        const tokens = withTokensFrom('false')
+
+        expect(parse(tokens)).toEqual(new AST([
+          new FalseLiteral()
+        ]))
+      })
+
+      it('parses nil correctly', () => {
+        const tokens = withTokensFrom('nil')
+
+        expect(parse(tokens)).toEqual(new AST([
+          new NilLiteral()
+        ]))
+      })
+
+      describe('function expression', () => {
+        it('parses a one line function correctly', () => {
+          const tokens = withTokensFrom('[] 42')
+          
+          expect(parse(tokens)).toEqual(new AST([
+            new FunctionExpression(
+              'anonymous',
+              [new ReturnStatement(new IntLiteral(42))],
+              [],
+              false
+            )
+          ]))
+        })
+
+        it('parses a multi line function correctly', () => {
+          const tokens = withTokensFrom('[] { return 42 }')
+
+          expect(parse(tokens)).toEqual(new AST([
+            new FunctionExpression(
+              'anonymous',
+              [new ReturnStatement(new IntLiteral(42))],
+              [],
+              false
+            )
+          ]))
+        })
+
+        it('parses a named function correctly', () => {
+          const tokens = withTokensFrom('let func [] 42')
+
+          expect(parse(tokens)).toEqual(new AST([
+            new LetStatement(
+              new FunctionExpression(
+                'func',
+                [new ReturnStatement(new IntLiteral(42))],
+                [],
+                false
+              ),
+              'func'
+            )
+          ]))
+        })
+
+        it('parses function arguments correctly', () => {
+          const tokens = withTokensFrom('[a b @c] 42')
+
+          expect(parse(tokens)).toEqual(new AST([
+            new FunctionExpression(
+              'anonymous',
+              [new ReturnStatement(new IntLiteral(42))],
+              ['a', 'b', '@c'],
+              true
+            )
+          ]))
+        })
+
+        it('throws when function arguments list is not closed', () => {
+          const tokens = withTokensFrom('[')
+
+          expect(() => parse(tokens)).toThrowWithMessage(ParserError, "expected '' to be ']' (1:2)")
+        })
+
+        it('throws when the same argument name is used in two different args', () => {
+          const tokens = withTokensFrom('[a a] 42')
+
+          expect(() => parse(tokens)).toThrowWithMessage(ParserError, "double argument error: 'a' already exists (1:4)")
+        })
+
+        it('throws when the same argument name is used in an argument and varargs', () => {
+          const tokens = withTokensFrom('[a @a] 42')
+
+          expect(() => parse(tokens)).toThrowWithMessage(ParserError, "double argument error: '@a' already exists (1:4)")
+        })
+
+        it('throws when varargs is used as the non last parameter', () => {
+          const tokens = withTokensFrom('[@a b] 42')
+
+          expect(() => parse(tokens)).toThrowWithMessage(ParserError, "'@a' must be used as the last argument (1:2)")
+        })
+
+        it('throws when given argument is not an identifier', () => {
+          const tokens = withTokensFrom('[4] 42')
+
+          expect(() => parse(tokens)).toThrowWithMessage(ParserError, "expected '4' to be an identifier (1:2)")
+        })
+      })
+
+      it('throws syntax error when expression is invalid', () => {
+        const tokens = withTokensFrom('{')
+
+        expect(() => parse(tokens)).toThrowWithMessage(SyntaxError, "invalid syntax '{' (1:1)")
+      })
     })
   })
 })
