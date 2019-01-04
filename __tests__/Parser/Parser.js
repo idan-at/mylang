@@ -1,6 +1,15 @@
 const Parser = require('../../lib/Parser')
 const createLexer = require('../../lib/Lexer')
-const { AST, LetStatement, IntLiteral, IfStatement, FunctionCall, IdentifierExpression } = require('../../lib/AST')
+const {
+  AST,
+  LetStatement,
+  IntLiteral,
+  IfStatement,
+  ElsifStatement,
+  ElseStatement,
+  FunctionCall,
+  IdentifierExpression
+} = require('../../lib/AST')
 const { ParserError } = require('../../lib/errors')
 
 describe('Parser', () => {
@@ -37,7 +46,59 @@ describe('Parser', () => {
       ]))
     })
 
-        
+    it('parses an if-else statement correctly', () => {
+      const tokens = withTokensFrom('if (= x 1) { 42 } else { 45 }')
+
+      expect(parse(tokens)).toEqual(new AST([
+        new IfStatement(
+          new FunctionCall(new IdentifierExpression('='), [new IdentifierExpression('x'), new IntLiteral(1)]),
+          [new IntLiteral(42)],
+          new ElseStatement(
+            [new IntLiteral(45)],
+            null
+          )
+        )
+      ]))
+    })
+
+    it('parses an if-elsif statement correctly', () => {
+      const tokens = withTokensFrom('if (= x 1) { 42 } elsif (= x 2) { 45 }')
+
+      expect(parse(tokens)).toEqual(new AST([
+        new IfStatement(
+          new FunctionCall(new IdentifierExpression('='), [new IdentifierExpression('x'), new IntLiteral(1)]),
+          [new IntLiteral(42)],
+          new ElsifStatement(
+            new FunctionCall(new IdentifierExpression('='), [new IdentifierExpression('x'), new IntLiteral(2)]),
+            [new IntLiteral(45)],
+            null
+          )
+        )
+      ]))
+    })
+
+    it('parses an if-elsif-else statement correctly', () => {
+      const tokens = withTokensFrom('if (= x 1) { 42 } elsif (= x 2) { 43 } elsif (= x 3) { 44 } else { 45 }')
+
+      expect(parse(tokens)).toEqual(new AST([
+        new IfStatement(
+          new FunctionCall(new IdentifierExpression('='), [new IdentifierExpression('x'), new IntLiteral(1)]),
+          [new IntLiteral(42)],
+          new ElsifStatement(
+            new FunctionCall(new IdentifierExpression('='), [new IdentifierExpression('x'), new IntLiteral(2)]),
+            [new IntLiteral(43)],
+            new ElsifStatement(
+              new FunctionCall(new IdentifierExpression('='), [new IdentifierExpression('x'), new IntLiteral(3)]),
+              [new IntLiteral(44)],
+              new ElseStatement(
+                [new IntLiteral(45)],
+                null
+              )
+            )
+          )
+        )
+      ]))
+    })
   })
 })
 
