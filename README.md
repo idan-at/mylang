@@ -59,3 +59,26 @@ let fib [n] {
   }
 }
 ```
+
+## Functions
+A named function can be defined with the let statement:
+`let my-function [first second third] (+ first second third)`
+
+The function's arguments are passed inside the brackets `[]`.
+
+An anonymous function can be passed, for example using the `return statement`:
+```
+let apply [f x] (f x)
+
+(apply [z] (+ z 1) 1) ; will increase x by 1
+```
+
+Functions with a various number of arguments can be created using the varargs argument:
+```
+; sum all accept 2 or more arguments
+let sum-all [a b @rest] {
+  return (+ a b @rest) ; here is passes the rest of the arguments to the + function
+}
+```
+
+NOTE that is can only be the last function argument.
