@@ -1,11 +1,11 @@
 const {spawnSync} = require('child_process')
-const {writeFileSync, unlinkFileSync} = require('fs')
+const {writeFileSync, unlinkSync} = require('fs')
 const {resolve} = require('path')
 
 describe('mylang E2E', () => {
   const fixturesFilePath = resolve(__dirname, '..', 'code.my')
 
-  afterEach(() => { try { unlinkFileSync(fixturesFilePath) } catch(e) {} })
+  afterEach(() => { try { unlinkSync(fixturesFilePath) } catch(e) {} })
 
   test('runs the main function and exits with its return value', () => {
     const code = `
