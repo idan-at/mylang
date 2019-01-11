@@ -7,9 +7,9 @@ const {
   TrueLiteral,
   FalseLiteral,
   NilLiteral,
-  IfStatement,
-  ElsifStatement,
-  ElseStatement,
+  IfExpression,
+  ElsifExpression,
+  ElseExpression,
   FunctionCall,
   IdentifierExpression
 } = require("../../lib/AST");
@@ -30,7 +30,7 @@ describe("Parser", () => {
   describe("if statement", () => {
     it("parses simple if statement correctly", () => {
       expect("if (= x 1) { 42 }").toParseTo([
-        new IfStatement(
+        new IfExpression(
           new FunctionCall(new IdentifierExpression("="), [
             new IdentifierExpression("x"),
             new IntLiteral(1)
@@ -43,26 +43,26 @@ describe("Parser", () => {
 
     it("parses an if-else statement correctly", () => {
       expect("if (= x 1) { 42 } else { 45 }").toParseTo([
-        new IfStatement(
+        new IfExpression(
           new FunctionCall(new IdentifierExpression("="), [
             new IdentifierExpression("x"),
             new IntLiteral(1)
           ]),
           [new IntLiteral(42)],
-          new ElseStatement([new IntLiteral(45)], null)
+          new ElseExpression([new IntLiteral(45)], null)
         )
       ]);
     });
 
     it("parses an if-elsif statement correctly", () => {
       expect("if (= x 1) { 42 } elsif (= x 2) { 45 }").toParseTo([
-        new IfStatement(
+        new IfExpression(
           new FunctionCall(new IdentifierExpression("="), [
             new IdentifierExpression("x"),
             new IntLiteral(1)
           ]),
           [new IntLiteral(42)],
-          new ElsifStatement(
+          new ElsifExpression(
             new FunctionCall(new IdentifierExpression("="), [
               new IdentifierExpression("x"),
               new IntLiteral(2)
@@ -78,25 +78,25 @@ describe("Parser", () => {
       expect(
         "if (= x 1) { 42 } elsif (= x 2) { 43 } elsif (= x 3) { 44 } else { 45 }"
       ).toParseTo([
-        new IfStatement(
+        new IfExpression(
           new FunctionCall(new IdentifierExpression("="), [
             new IdentifierExpression("x"),
             new IntLiteral(1)
           ]),
           [new IntLiteral(42)],
-          new ElsifStatement(
+          new ElsifExpression(
             new FunctionCall(new IdentifierExpression("="), [
               new IdentifierExpression("x"),
               new IntLiteral(2)
             ]),
             [new IntLiteral(43)],
-            new ElsifStatement(
+            new ElsifExpression(
               new FunctionCall(new IdentifierExpression("="), [
                 new IdentifierExpression("x"),
                 new IntLiteral(3)
               ]),
               [new IntLiteral(44)],
-              new ElseStatement([new IntLiteral(45)], null)
+              new ElseExpression([new IntLiteral(45)], null)
             )
           )
         )
