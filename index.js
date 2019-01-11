@@ -8,19 +8,18 @@ const format = require("./lib/VM/format");
 
 function runFile(filePath) {
   const code = fs.readFileSync(filePath, "utf8");
-  vm.eval(parse(code));
-  const result = vm.main();
-  if (isInt(result)) {
-    process.exit(result);
-  }
+  const result = vm.main(parse(code));
 
-  if (isNil(result)) {
-    process.exit(0);
+  switch (true) {
+    case isInt(result):
+      process.exit(result);
+    case isNil(result):
+      process.exit(0);
+    default:
+      throw new InvalidExitCodeError(
+        `main returned with '${format(result)}' (expected an int or nil)`
+      );
   }
-
-  throw new InvalidExitCodeError(
-    `main returned with '${result.toString()}' (expected an int or nil)`
-  );
 }
 
 function repl() {
