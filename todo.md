@@ -1,5 +1,5 @@
-- Tests...
-- immutable.js
+- VM Tests
+- move set,list,dict to use immutable.js
 
 # Features
 - default parameters
