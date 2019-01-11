@@ -17,7 +17,7 @@ let main [] {
   (println d)
 
   (println (sum-all 1 2 3 4))
-  return (add1 (identity 41))
+  (add1 (identity 41))
 }
 
 let identity [a] a
@@ -27,18 +27,18 @@ let sum-all [a b @rest] (+ a b @rest)
 let add1 [a] {
   let x 1
   let y [] {
-    return (+ x a)
+    (+ x a)
   }
 
-  return (y)
+  (y)
 }
 
 let if-example [n] {
   if (!= n 1) {
-    return (+ n 1)
+    (+ n 1)
   }
 
-  return (* n 4)
+  (* n 4)
 }
 
 let print-if-positive [n] {
