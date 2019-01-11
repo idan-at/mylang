@@ -29,7 +29,7 @@ describe("Parser", () => {
 
   describe("if statement", () => {
     it("parses simple if statement correctly", () => {
-      expect("if (= x 1) { 42 }").toParseTo([
+      expect("if (= x 1) 42").toParseTo([
         new IfExpression(
           new FunctionCall(new IdentifierExpression("="), [
             new IdentifierExpression("x"),
@@ -42,7 +42,7 @@ describe("Parser", () => {
     });
 
     it("parses an if-else statement correctly", () => {
-      expect("if (= x 1) { 42 } else { 45 }").toParseTo([
+      expect("if (= x 1) { 42 } else 45").toParseTo([
         new IfExpression(
           new FunctionCall(new IdentifierExpression("="), [
             new IdentifierExpression("x"),
@@ -55,7 +55,7 @@ describe("Parser", () => {
     });
 
     it("parses an if-elsif statement correctly", () => {
-      expect("if (= x 1) { 42 } elsif (= x 2) { 45 }").toParseTo([
+      expect("if (= x 1) { 42 } elsif (= x 2) 45").toParseTo([
         new IfExpression(
           new FunctionCall(new IdentifierExpression("="), [
             new IdentifierExpression("x"),
@@ -76,7 +76,7 @@ describe("Parser", () => {
 
     it("parses an if-elsif-else statement correctly", () => {
       expect(
-        "if (= x 1) { 42 } elsif (= x 2) { 43 } elsif (= x 3) { 44 } else { 45 }"
+        "if (= x 1) { 42 } elsif (= x 2) 43 elsif (= x 3) { 44 } else { 45 }"
       ).toParseTo([
         new IfExpression(
           new FunctionCall(new IdentifierExpression("="), [
@@ -101,22 +101,6 @@ describe("Parser", () => {
           )
         )
       ]);
-    });
-
-    it("throws when if body is not inside a scope ({...})", () => {
-      expect("if (= x 1) 42").toFailParsing("expected '42' to be '{' (1:12)");
-    });
-
-    it("throws when elsif body is not inside a scope ({...})", () => {
-      expect("if (= x 1) { 42 } elsif (= x 4) 43").toFailParsing(
-        "expected '43' to be '{' (1:33)"
-      );
-    });
-
-    it("throws when els body is not inside a scope ({...})", () => {
-      expect("if (= x 1) { 42 } else 43").toFailParsing(
-        "expected '43' to be '{' (1:24)"
-      );
     });
   });
 

@@ -62,5 +62,5 @@ function tokenize(code) {
 
 function parse(code) {
   const tokens = tokenize(code);
-  return new Parser().parse(tokens);
+  return new Parser(tokens).parse();
 }

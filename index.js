@@ -48,8 +48,8 @@ function repl() {
 function parse(code) {
   const lexer = createLexer();
   const tokens = lexer.tokenize(code);
-  const parser = new Parser();
-  return parser.parse(tokens);
+  const parser = new Parser(tokens);
+  return parser.parse();
 }
 
 process.argv[2] ? runFile(process.argv[2]) : repl();
