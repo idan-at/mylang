@@ -1,9 +1,5 @@
-const Parser = require('../../lib/Parser')
-const createLexer = require('../../lib/Lexer')
 const {
-  AST,
   LetStatement,
-  ReturnStatement,
   FloatLiteral,
   StringLiteral,
   IntLiteral,
@@ -17,7 +13,6 @@ const {
   FunctionCall,
   IdentifierExpression
 } = require('../../lib/AST')
-const { ParserError, SyntaxError } = require('../../lib/errors')
 
 describe('Parser', () => {
   describe('let statement', () => {
@@ -161,7 +156,7 @@ describe('Parser', () => {
           expect('[] 42').toParseTo([
             new FunctionExpression(
               'anonymous',
-              [new ReturnStatement(new IntLiteral(42))],
+              [new IntLiteral(42)],
               [],
               false
             )
@@ -169,10 +164,10 @@ describe('Parser', () => {
         })
 
         it('parses a multi line function correctly', () => {
-          expect('[] { return 42 }').toParseTo([
+          expect('[] { 42 }').toParseTo([
             new FunctionExpression(
               'anonymous',
-              [new ReturnStatement(new IntLiteral(42))],
+              [new IntLiteral(42)],
               [],
               false
             )
@@ -184,7 +179,7 @@ describe('Parser', () => {
             new LetStatement(
               new FunctionExpression(
                 'func',
-                [new ReturnStatement(new IntLiteral(42))],
+                [new IntLiteral(42)],
                 [],
                 false
               ),
@@ -197,7 +192,7 @@ describe('Parser', () => {
           expect('[a b @c] 42').toParseTo([
             new FunctionExpression(
               'anonymous',
-              [new ReturnStatement(new IntLiteral(42))],
+              [new IntLiteral(42)],
               ['a', 'b', '@c'],
               true
             )

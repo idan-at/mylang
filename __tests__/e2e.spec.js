@@ -12,7 +12,7 @@ describe('mylang E2E', () => {
       ; main
       let main [] {
         (println "Hello, World!")
-        return 42
+        42
       }`
 
     writeFileSync(fixturesFilePath, code, 'utf8')

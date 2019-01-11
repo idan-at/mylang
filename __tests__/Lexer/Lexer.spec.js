@@ -11,7 +11,6 @@ const {
   IF,
   ELSIF,
   ELSE,
-  RETURN,
   NIL,
   TRUE,
   FALSE,
@@ -51,12 +50,6 @@ describe('Lexer', () => {
       const code = `else `
   
       expect(code).toTokenizeTo([new Token(ELSE, 'else ', 1, 1)])
-    })
-  
-    it('should properly tokenize return keyword', () => {
-      const code = `return `
-  
-      expect(code).toTokenizeTo([new Token(RETURN, 'return ', 1, 1)])
     })
   })
 
@@ -222,7 +215,7 @@ describe('Lexer', () => {
     })
 
     it('should properly tokenize a multi line function declaration', () => {
-      const code = `let f [] {\n  return 45\n}`
+      const code = `let f [] {\n 45\n}`
 
       expect(code).toTokenizeTo([
         new Token(LET, 'let ', 1, 1),
@@ -230,8 +223,7 @@ describe('Lexer', () => {
         new Token(LBRACKET, '[', 1, 7),
         new Token(RBRACKET, ']', 1, 8),
         new Token(LSCOPE, '{', 1, 10),
-        new Token(RETURN, 'return ', 2, 3),
-        new Token(INT, '45', 2, 10),
+        new Token(INT, '45', 2, 2),
         new Token(RSCOPE, '}', 3, 1)
       ])
     })

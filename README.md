@@ -26,23 +26,24 @@ let sum-and-print [a b] {
   let result (+ a b)
   (println result)
 
-  return result
+  ; last evaluated expression is returned
+  result
 }
 ```
 
 NOTE that once a name is set with a value, it can't be changed.
 
 ## Control flow
-The `if statement` can be used for code branching.
+The `if expression` can be used for code branching.
 
 ```
 let zero-if-negative-otherwise-add-one [n] {
   if (> n 0) {
-    return 0
+    0
   } elsif false {
     (println "wont ever get here")
   } else {
-    retun (+ n 1)
+    (+ n 1)
   }
 }
 ```
@@ -51,11 +52,11 @@ There are no loops. Recursion can be used:
 ```
 let fib [n] {
   if (= n 0) {
-    return 0
+    0
   } elsif (= n 1) {
-    return 1
+    1
   } else {
-    return (+ (fib (- n 1)) (fib (- n 2)))
+    (+ (fib (- n 1)) (fib (- n 2)))
   }
 }
 ```
@@ -65,8 +66,9 @@ A named function can be defined with the let statement:
 `let my-function [first second third] (+ first second third)`
 
 The function's arguments are passed inside the brackets `[]`.
+In a function, the last evaluated expression is returned.
 
-An anonymous function can be passed, for example using the `return statement`:
+An anonymous function can be passed:
 ```
 let apply [f x] (f x)
 
@@ -77,7 +79,7 @@ Functions with a various number of arguments can be created using the varargs ar
 ```
 ; sum all accept 2 or more arguments
 let sum-all [a b @rest] {
-  return (+ a b @rest) ; here is passes the rest of the arguments to the + function
+  (+ a b @rest) ; here is passes the rest of the arguments to the + function
 }
 ```
 
