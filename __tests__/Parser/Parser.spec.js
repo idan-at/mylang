@@ -29,9 +29,9 @@ describe("Parser", () => {
 
   describe("if statement", () => {
     it("parses simple if statement correctly", () => {
-      expect("if (= x 1) 42").toParseTo([
+      expect("if (== x 1) 42").toParseTo([
         new IfExpression(
-          new FunctionCall(new IdentifierExpression("="), [
+          new FunctionCall(new IdentifierExpression("=="), [
             new IdentifierExpression("x"),
             new IntLiteral(1)
           ]),
@@ -42,9 +42,9 @@ describe("Parser", () => {
     });
 
     it("parses an if-else statement correctly", () => {
-      expect("if (= x 1) { 42 } else 45").toParseTo([
+      expect("if (== x 1) { 42 } else 45").toParseTo([
         new IfExpression(
-          new FunctionCall(new IdentifierExpression("="), [
+          new FunctionCall(new IdentifierExpression("=="), [
             new IdentifierExpression("x"),
             new IntLiteral(1)
           ]),
@@ -55,15 +55,15 @@ describe("Parser", () => {
     });
 
     it("parses an if-elsif statement correctly", () => {
-      expect("if (= x 1) { 42 } elsif (= x 2) 45").toParseTo([
+      expect("if (== x 1) { 42 } elsif (== x 2) 45").toParseTo([
         new IfExpression(
-          new FunctionCall(new IdentifierExpression("="), [
+          new FunctionCall(new IdentifierExpression("=="), [
             new IdentifierExpression("x"),
             new IntLiteral(1)
           ]),
           [new IntLiteral(42)],
           new ElsifExpression(
-            new FunctionCall(new IdentifierExpression("="), [
+            new FunctionCall(new IdentifierExpression("=="), [
               new IdentifierExpression("x"),
               new IntLiteral(2)
             ]),
@@ -76,22 +76,22 @@ describe("Parser", () => {
 
     it("parses an if-elsif-else statement correctly", () => {
       expect(
-        "if (= x 1) { 42 } elsif (= x 2) 43 elsif (= x 3) { 44 } else { 45 }"
+        "if (== x 1) { 42 } elsif (== x 2) 43 elsif (== x 3) { 44 } else { 45 }"
       ).toParseTo([
         new IfExpression(
-          new FunctionCall(new IdentifierExpression("="), [
+          new FunctionCall(new IdentifierExpression("=="), [
             new IdentifierExpression("x"),
             new IntLiteral(1)
           ]),
           [new IntLiteral(42)],
           new ElsifExpression(
-            new FunctionCall(new IdentifierExpression("="), [
+            new FunctionCall(new IdentifierExpression("=="), [
               new IdentifierExpression("x"),
               new IntLiteral(2)
             ]),
             [new IntLiteral(43)],
             new ElsifExpression(
-              new FunctionCall(new IdentifierExpression("="), [
+              new FunctionCall(new IdentifierExpression("=="), [
                 new IdentifierExpression("x"),
                 new IntLiteral(3)
               ]),
