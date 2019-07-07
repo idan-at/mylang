@@ -8,7 +8,8 @@ elsif_statement: ELSIF expression LSCOPE func_body RSCOPE
 else_statement: ELSE LSCOPE func_body RSCOPE
 
 function: LBRACKET function_arguments RBRACKET (LSCOPE func_body RSCOPE | expression )
-function_arguments: (identifier)* (VARARGS identifier)?
+function_arguments: (identifier default_parameter_value)* (VARARGS identifier)?
+default_parameter_value: (ASSIGN expression)?
 func_body: (let_statement | if_statement)*
 int: SIGN?\d+
 float: SIGN?\d+\.\d+
@@ -32,3 +33,4 @@ IF: 'if'
 ELSIF: 'elsif'
 ELSE: 'else'
 VARARGS: '@'
+ASSIGN: '='

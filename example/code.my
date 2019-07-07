@@ -18,6 +18,11 @@ let main [] {
 
   (println (sum-all 1 2 3 4))
   (add1 (identity 41))
+
+  (println (with-default-value))
+  (println (with-default-value 5))
+
+  45
 }
 
 let identity [a] a
@@ -45,4 +50,8 @@ let print-if-positive [n] {
   if (> n 0) {
     (println n)
   }
+}
+
+let with-default-value[n = 4] {
+  n
 }

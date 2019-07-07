@@ -83,3 +83,12 @@ let sum-all [a b @rest] {
 ```
 
 NOTE that is can only be the last function argument.
+
+Functions can also assign expressions as default parameter value:
+```
+let with-default[n = 4] {
+  n ; will return 4 if called without parameters, and otherwise will return the parameter passed
+}
+```
+
+NOTE no parameter without a default value can come after a parameter with default value.
