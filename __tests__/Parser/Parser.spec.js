@@ -11,7 +11,8 @@ const {
   ElsifExpression,
   ElseExpression,
   FunctionCall,
-  IdentifierExpression
+  IdentifierExpression,
+  FunctionArgumentExpression
 } = require("../../lib/AST");
 
 describe("Parser", () => {
@@ -187,7 +188,11 @@ describe("Parser", () => {
             new FunctionExpression(
               "anonymous",
               [new IntLiteral(42)],
-              ["a", "b", "@c"],
+              [
+                new FunctionArgumentExpression("a", new NilLiteral()),
+                new FunctionArgumentExpression("b", new NilLiteral()),
+                new FunctionArgumentExpression("@c", new NilLiteral())
+              ],
               true
             )
           ]);
