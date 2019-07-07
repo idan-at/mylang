@@ -21,8 +21,6 @@ let main [] {
 
   (println (with-default-value))
   (println (with-default-value 5))
-
-  45
 }
 
 let identity [a] a

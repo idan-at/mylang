@@ -15,6 +15,8 @@ function runFile(filePath) {
       process.exit(result);
     case isNil(result):
       process.exit(0);
+    case result === undefined:
+      process.exit(0);
     default:
       throw new InvalidExitCodeError(
         `main returned with '${format(result)}' (expected an int or nil)`
